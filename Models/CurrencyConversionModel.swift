@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CurrencyConversionModel: Codable {
+struct CurrencyConversionModel: Codable, Equatable {
     let timestamp: Int
     let rates: [String : Double]
 }

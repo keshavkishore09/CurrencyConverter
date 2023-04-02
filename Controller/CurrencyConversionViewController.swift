@@ -9,12 +9,17 @@ import UIKit
 
 class CurrencyConversionViewController: UIViewController {
     
+    private let viewDidLoader = Observable<Void>(())
+    private let pickerValueSelector = Observable<String>("")
+    private let getAllTheCurrencies = Observable<Void>(())
+    private var items: [ConversionTableViewCellModel] = []
+    private var currencies: [CurrencyModel] = []
     var selectedCurrencyPriceToUSD: Double?
     var workItemRefence: DispatchWorkItem? = nil
     
     private var activityIndicatorView: UIActivityIndicatorView!
     
-    var homeViewModel = CurrencyConverionControllerViewModel()
+    var homeViewModel = CurrencyConversionViewModel()
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -77,6 +82,8 @@ class CurrencyConversionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        setupSubscription()
         tableView.delegate = self
         tableView.dataSource = self
         constraintsForAmountTextField()
@@ -104,22 +111,46 @@ class CurrencyConversionViewController: UIViewController {
         
         overrideUserInterfaceStyle = .light
         
-        homeViewModel.populateDropDownView {[weak self] success in
-            self?.activityIndicatorVisibleAndAnimating()
-            if (success) {
-                DispatchQueue.main.async {
-                    self?.activityIndicatorHiddenAndNotAnimating()
-                    self?.pickerView.reloadAllComponents()
-                }
+//        homeViewModel.populateDropDownView {[weak self] success in
+//            self?.activityIndicatorVisibleAndAnimating()
+//            if (success) {
+//                DispatchQueue.main.async {
+//                    self?.activityIndicatorHiddenAndNotAnimating()
+//                    self?.pickerq ZView.reloadAllComponents()
+//                }
+//            }
+//            else {
+//                DispatchQueue.main.async {
+//                    self?.activityIndicatorHiddenAndNotAnimating()
+//                    self?.showAlert(msg: self?.homeViewModel.errorString ?? "")
+//                }
+//            }
+//        }
+        viewDidLoader.value = ()
+        getAllTheCurrencies.value = ()
+    }
+    
+    private func setupSubscription() {
+        let input = CurrencyConversionInput(
+            viewDidLoad: viewDidLoader,
+            pickerValueChanged: pickerValueSelector
+        )
+        let output = homeViewModel.transform(input: input)
+        output.items.observe(on: self) { [weak self] models in
+            self?.items = models
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
             }
-            else {
-                DispatchQueue.main.async {
-                    self?.activityIndicatorHiddenAndNotAnimating()
-                    self?.showAlert(msg: self?.homeViewModel.errorString ?? "")
-                }
+        }
+        output.pickerItems.observe(on: self) { [weak self] models in
+            self?.currencies = models
+            DispatchQueue.main.async {
+                self?.pickerView.reloadAllComponents()
             }
         }
     }
+    
+    
     
     private func showAlert(msg: String) {
         let alertController: UIAlertController =
@@ -186,17 +217,19 @@ extension CurrencyConversionViewController: UITableViewDelegate {}
 
 extension CurrencyConversionViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.homeViewModel.currencyConversionTableViewCellModel.count == 0 ? self.tableView.setEmptyMessage("Choose United States dollar to start the app.") : self.tableView.restore()
-        return self.homeViewModel.currencyConversionTableViewCellModel.count
+        self.items.count == 0 ? self.tableView.setEmptyMessage("Choose United States dollar to start the app.") : self.tableView.restore()
+        return self.items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath) as? CurrencyConversionTableViewCell else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath) as? CurrencyConversionTableViewCell else {
+            return UITableViewCell()
+        }
         cell.userSelectedCurrencyPriceToUSD = selectedCurrencyPriceToUSD ?? 1
-        let viewModel = homeViewModel.currencyConversionTableViewCellModel[indexPath.row]
+        //let viewModel = homeViewModel.currencyConversionTableViewCellModel[indexPath.row]
         cell.selectedCurrency = homeViewModel.selectedCurrency
         cell.amountToConvert = Double(amountTextField.text ?? "1") ?? 1.0
-        cell.configure(with: viewModel)
+        cell.configure(with: items[indexPath.row])
         return cell
     }
     
@@ -248,33 +281,34 @@ extension CurrencyConversionViewController: UIPickerViewDelegate, UIPickerViewDa
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return homeViewModel.currencyModels.count
+        return currencies.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return homeViewModel.currencyModels[row].currencyFullName
+        return currencies[row].currencyFullName
     }
     
     
     func  pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.pickerView.isHidden = true
-        homeViewModel.populateTableViewWithConvertedCurencies(selectedCurrency: homeViewModel.currencyModels[row]) {[weak self] success in
-            self?.activityIndicatorVisibleAndAnimating()
-            if (success) {
-                DispatchQueue.main.async {
-                    self?.activityIndicatorHiddenAndNotAnimating()
-                    self?.selectedTextField.text = self?.homeViewModel.currencyModels[row].currencyFullName
-                    self?.calculateSelectedCurrencyToUSD()
-                    self?.tableView.reloadData()
-                }
-            }
-            else {
-                DispatchQueue.main.async {
-                    self?.activityIndicatorHiddenAndNotAnimating()
-                    self?.showAlert(msg: self?.homeViewModel.errorString ?? "")
-                }
-            }
-        }
+        self.pickerValueSelector.value = "INR"
+//        homeViewModel.populateTableViewWithConvertedCurencies(selectedCurrency: homeViewModel.currencyModels[row]) {[weak self] success in
+//            self?.activityIndicatorVisibleAndAnimating()
+//            if (success) {
+//                DispatchQueue.main.async {
+//                    self?.activityIndicatorHiddenAndNotAnimating()
+//                    self?.selectedTextField.text = self?.homeViewModel.currencyModels[row].currencyFullName
+//                    self?.calculateSelectedCurrencyToUSD()
+//                    self?.tableView.reloadData()
+//                }
+//            }
+//            else {
+//                DispatchQueue.main.async {
+//                    self?.activityIndicatorHiddenAndNotAnimating()
+//                    self?.showAlert(msg: self?.homeViewModel.errorString ?? "")
+//                }
+//            }
+//        }
     }
 }
 

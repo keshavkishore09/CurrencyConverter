@@ -13,7 +13,7 @@
 		AB1744A229993AB100F3385F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB1744A029993AB100F3385F /* LaunchScreen.storyboard */; };
 		AB1744B729993AB100F3385F /* CurrencyConverterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1744B629993AB100F3385F /* CurrencyConverterUITests.swift */; };
 		AB1744B929993AB100F3385F /* CurrencyConverterUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1744B829993AB100F3385F /* CurrencyConverterUITestsLaunchTests.swift */; };
-		AB1744DF29993B3300F3385F /* CurrencyConverionControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1744C629993B3300F3385F /* CurrencyConverionControllerViewModel.swift */; };
+		AB1744DF29993B3300F3385F /* CurrencyConversionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1744C629993B3300F3385F /* CurrencyConversionViewModel.swift */; };
 		AB1744E029993B3300F3385F /* ConversionTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1744C829993B3300F3385F /* ConversionTableViewCellModel.swift */; };
 		AB1744E129993B3300F3385F /* CurrencyConversionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1744C929993B3300F3385F /* CurrencyConversionModel.swift */; };
 		AB1744E229993B3300F3385F /* CurrencyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1744CA29993B3300F3385F /* CurrencyModel.swift */; };
@@ -72,7 +72,7 @@
 		AB1744B229993AB100F3385F /* CurrencyConverterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CurrencyConverterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB1744B629993AB100F3385F /* CurrencyConverterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverterUITests.swift; sourceTree = "<group>"; };
 		AB1744B829993AB100F3385F /* CurrencyConverterUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverterUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		AB1744C629993B3300F3385F /* CurrencyConverionControllerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyConverionControllerViewModel.swift; sourceTree = "<group>"; };
+		AB1744C629993B3300F3385F /* CurrencyConversionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyConversionViewModel.swift; sourceTree = "<group>"; };
 		AB1744C829993B3300F3385F /* ConversionTableViewCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversionTableViewCellModel.swift; sourceTree = "<group>"; };
 		AB1744C929993B3300F3385F /* CurrencyConversionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyConversionModel.swift; sourceTree = "<group>"; };
 		AB1744CA29993B3300F3385F /* CurrencyModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyModel.swift; sourceTree = "<group>"; };
@@ -191,7 +191,7 @@
 		AB1744C529993B3300F3385F /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				AB1744C629993B3300F3385F /* CurrencyConverionControllerViewModel.swift */,
+				AB1744C629993B3300F3385F /* CurrencyConversionViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -408,7 +408,7 @@
 				AB1744ED29993B3300F3385F /* CurrencyDataRepository.swift in Sources */,
 				AB1744F029993B3300F3385F /* APIManager.swift in Sources */,
 				AB1744E929993B3300F3385F /* CurrencyConversionDataRepository.swift in Sources */,
-				AB1744DF29993B3300F3385F /* CurrencyConverionControllerViewModel.swift in Sources */,
+				AB1744DF29993B3300F3385F /* CurrencyConversionViewModel.swift in Sources */,
 				AB1744F129993B3300F3385F /* APICaller.swift in Sources */,
 				AB1744EC29993B3300F3385F /* CDCurrency+CoreDataProperties.swift in Sources */,
 				AB1744E229993B3300F3385F /* CurrencyModel.swift in Sources */,

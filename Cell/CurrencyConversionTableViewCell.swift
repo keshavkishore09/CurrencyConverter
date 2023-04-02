@@ -88,7 +88,7 @@ class CurrencyConversionTableViewCell: UITableViewCell {
         let roundOffValue = Double(round(1000 * valuePerUnit) / 1000)
         currencyValue.text = "\(roundOffValue * amountToConvert)"
         symbolLabel.text = getSymbol(model: model) ?? model.currencyName
-        perUnitValue.text = "1 \(selectedCurrency.currencyName) = \(roundOffValue) \(model.currencyFullName)"
+        // perUnitValue.text = "1 \(selectedCurrency.currencyName) = \(roundOffValue) \(model.currencyFullName)"
     }
     
     
